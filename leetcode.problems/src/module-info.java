@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author darko
+ *
+ */
+module main {
+}

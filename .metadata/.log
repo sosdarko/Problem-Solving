@@ -1,0 +1,16 @@
+!SESSION 2019-01-26 17:31:03.061 -----------------------------------------------
+eclipse.buildId=4.9.0.I20180906-0745
+java.version=10.0.2
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2019-01-26 17:32:03.776
+!MESSAGE Setup tasks were performed during startup updating 4 preferences. See '/home/darko/eclipse/jee-2018-09/eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY org.eclipse.jface.text 2 0 2019-01-26 17:35:03.077
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY org.eclipse.jface.text 2 0 2019-01-26 17:36:13.977
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
