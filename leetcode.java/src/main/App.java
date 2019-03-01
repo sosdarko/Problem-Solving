@@ -1,6 +1,7 @@
 package main;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -109,10 +110,22 @@ public class App {
     	System.out.println(SOLUTION.minSwapsCouples(row));
     }
     private static void IsNumber() {
-    	String s = ".1";
+    	String s = " 005047e+6e8";
     	System.out.println(SOLUTION.isNumber(s));
     }
+    
+    private static void FullJustify() {
+    	String words[] = {"This", "is", "an", "example", "of", "text", "justification."};
+    	String words2[] = {"What","must","be","acknowledgment","shall","be"};
+    	String words3[] = {"Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"};
+    	String words4[] = {"ask","not","what","your","country","can","do","for","you","ask","what","you","can","do","for","your","country"};
+    	List<String> r = SOLUTION.fullJustify(words4, 16);
+    	for (String s:r) {
+    		System.out.println(s);
+    	}
+    }
+    
     public static void main(String[] args) {
-        IsNumber();
+        FullJustify();
     }
 }

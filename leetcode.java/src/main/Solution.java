@@ -1,17 +1,13 @@
 package main;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.xml.stream.events.Characters;
 
 /**
  * Definition for singly-linked list. public class ListNode { int val; ListNode
@@ -574,6 +570,7 @@ class Solution {
 		boolean needMore = true;
 		boolean afterE = false;
 		boolean afterDot;
+        boolean hasDigit;
 		int i = 0;
 		String t = s.trim();
 		// if there's nothing but a whitespace, it's not the number
@@ -584,11 +581,12 @@ class Solution {
 		// could be in the first position
 		Set<Character> possibleChars = new HashSet<Character>(
 				Arrays.asList('+', '-', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
-		Character c;
+		Character c, prevChar=null;
 		result = true;
 		needMore = true;
 		afterE = false;
 		afterDot = false;
+        hasDigit = false;
 		while (i < t.length()) {
 			c = t.charAt(i);
 			if (!possibleChars.contains(c)) {
@@ -607,18 +605,21 @@ class Solution {
 					possibleChars.remove((Character) '+');
 					possibleChars.remove((Character) '-');
 					possibleChars.remove((Character) '.');
+					possibleChars.add((Character) '-');
+					possibleChars.add((Character) '+');
 					afterE = true;
 					needMore = true;
 					break;
 				case '.':
 					possibleChars.remove((Character) '.');
-					possibleChars.remove((Character) 'e');
+					//possibleChars.remove((Character) 'e');
 					possibleChars.remove((Character) '+');
 					possibleChars.remove((Character) '-');
-					needMore = true;
+					needMore = false;
 					afterDot = true;
 					break;
 				default: // here goes digits
+                    hasDigit = true;
 					possibleChars.remove((Character) '+');
 					possibleChars.remove((Character) '-');
 					if (!afterE && !afterDot) {
@@ -632,13 +633,78 @@ class Solution {
 				}
 			}
 			i++;
+            prevChar = c;
 		}
 
-		if (needMore) {
+		if (needMore || !hasDigit) {
 			result = false;
 		}
 
 		return result;
 	}
 
+	// https://leetcode.com/problems/text-justification/
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<String>();
+        // first pass - distribute words over lines
+        StringBuilder line = new StringBuilder();
+        List<StringBuilder> bag = new ArrayList<>();
+        int spaces, ind, lineLength, prevWordLength;
+
+        lineLength = 0;
+        prevWordLength = 0;
+        for (int i=0; i<words.length; i++) {
+        	// words length so far + their spaces + new word length (doesn't need space)
+        	if (lineLength + bag.size() + words[i].length() > maxWidth) {
+        		if (bag.size() == 0) {
+        			// this means that the single word is too big to fit maxWidth
+        			break;
+        		}
+        		spaces = maxWidth - lineLength;
+        		if (spaces > 0) {
+        			// distribute spaces on all but last word
+        			// this wrks well even for one word bag
+        			ind = 0;
+        			while (spaces > 0) {
+        				spaces--;
+        				bag.get(ind).append(' ');
+        				ind ++;
+        				if (ind >= bag.size() - 1) {
+        					ind = 0;
+        				}
+        			}
+        		}
+        		// build line
+        		for (StringBuilder sb : bag) {
+        			line.append(sb);
+        		}
+        		// add line to the result
+        		result.add(line.toString());
+        		line.setLength(0);
+        		bag.clear();
+        		lineLength = 0;
+        	}
+        	prevWordLength = words[i].length();
+        	lineLength += prevWordLength;
+        	bag.add(new StringBuilder(words[i]));
+        }
+        // left justify remaining words if any; those must fit on one line
+        if (bag.size() > 0) {
+        	line.setLength(0);
+	        for (StringBuilder sb : bag) {
+	        	line.append(sb).append(' ');
+	        }
+	        // trim last space
+	        line.setLength(line.length()-1);
+	        // append spaces to the end of given length
+	        spaces = maxWidth - line.length();
+	        while (spaces>0) {
+	        	line.append(' ');
+	        	spaces--;
+	        }
+	        result.add(line.toString());
+        }
+        return result;
+    }
+	
 }

@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author darko
- *
- */
-module main {
-}
